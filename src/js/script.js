@@ -9,7 +9,9 @@ const select = {
   templateOf: {
     book: '#template-book',
   },
-
+  booksList: {
+    clickable: '.book__image',
+  },
 
 };
 
@@ -26,6 +28,8 @@ class Book {
     thisBook.data = data;
 
     thisBook.rednerBook();
+    thisBook.getElements();
+    thisBook.initActions();
   }
 
   rednerBook(){
@@ -39,8 +43,42 @@ class Book {
     const booksWrapper = document.querySelector(select.containerOf.books);
     /*Add books to books list */
     booksWrapper.appendChild(thisBook.element);
+  }
+
+  getElements(){
+    const thisBook = this;
+
+    thisBook.favoriteTrigger = thisBook.element.querySelector(select.booksList.clickable);
 
   }
+
+  initActions(){
+    const thisBook = this;
+    /*Prevent default action on 1click*/
+    thisBook.favoriteTrigger.addEventListener('click', function(event){
+      event.preventDefault();
+    });
+
+    thisBook.favoriteTrigger.addEventListener('dblclick', function(){
+
+      if(!dataSource.favoriteBooks.includes(thisBook.id)){
+        dataSource.favoriteBooks.push(thisBook.id);
+        thisBook.favoriteTrigger.classList.add('favorite');
+      }else{
+        for(let id = 0; id < dataSource.favoriteBooks.length; id++){
+          if(dataSource.favoriteBooks[id] === thisBook.id){
+            dataSource.favoriteBooks.splice(id, 1);
+            thisBook.favoriteTrigger.classList.remove('favorite');
+          }
+        }
+
+      }
+    });
+
+
+
+  }
+
 }
 
 const app = {
@@ -60,8 +98,8 @@ const app = {
 
   init: function(){
     const thisApp = this;
-    console.log('*** App starting ***');
-    console.log('thisApp:', thisApp);
+    //console.log('*** App starting ***');
+    //console.log('thisApp:', thisApp);
 
     thisApp.initData();
     thisApp.initMenu();
