@@ -53,10 +53,13 @@ dataSource.books = [
     price: 40,
     details: {
       adults: false,
-      nonFiction: false
+      nonFiction: false,
     }
   },
 ];
 dataSource.favoriteBooks = [
+
+];
+dataSource.filters = [
 
 ];
